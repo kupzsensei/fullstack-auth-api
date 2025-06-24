@@ -24,12 +24,24 @@ from rest_framework_simplejwt.views import (
 
 from rest_framework_simplejwt.views import TokenVerifyView
 
-from .views import RegisterView
+from .views import RegisterView , GetAllUserView
+
+from django.conf import settings
+from django.conf.urls.static import static
+
+from overtime.views import RequestOvertimeView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/auth/login/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('api/token/verify/', TokenVerifyView.as_view(), name='token_verify'),
-    path('api/auth/register/' ,RegisterView.as_view() )
+
+    path('api/auth/register/' ,RegisterView.as_view() ),
+    path('api/auth/users/' ,GetAllUserView.as_view()),
+
+    # Overtime
+    path('api/overtime/' , RequestOvertimeView.as_view()),
 ]
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
