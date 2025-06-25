@@ -24,8 +24,8 @@ class RequestOvertimeView(generics.ListCreateAPIView):
 
 class RequestApprovalView(APIView):
     def post(self,request):
-       
-        instance = Overtime.objects.get(id=request.get('id'))
+        print('this is it' , request.data)
+        instance = Overtime.objects.get(id=request.data['id'])
 
         if not instance:
             return Response({'error': 'request not found'} , status=404)
@@ -34,5 +34,20 @@ class RequestApprovalView(APIView):
             return Response({'error': 'request fail'} , status=401)
         
         instance.request_approval = True
+        instance.save()
+        return Response({'ok': True})
+
+class EvidenceApprovalView(APIView):
+    def post(self,request):
+       
+        instance = Overtime.objects.get(id=request.data['id'])
+
+        if not instance:
+            return Response({'error': 'request not found'} , status=404)
+        
+        if instance.supervisor != request.user:           
+            return Response({'error': 'request fail'} , status=401)
+        
+        instance.evidence_approval = True
         instance.save()
         return Response({'ok': True})

@@ -13,6 +13,6 @@ class OvertimeGetSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Overtime
-        fields = ['reason' ,'time_in' , 'time_out' , 'supervisor','user' , 'files']
+        fields = ['id' , 'reason' ,'time_in' , 'time_out' , 'supervisor','user' , 'files', 'request_approval','evidence_approval']
         depth = 2
 
