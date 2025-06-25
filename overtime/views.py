@@ -39,7 +39,7 @@ class RequestApprovalView(APIView):
 
 class EvidenceApprovalView(APIView):
     def post(self,request):
-       
+        
         instance = Overtime.objects.get(id=request.data['id'])
 
         if not instance:
@@ -49,5 +49,6 @@ class EvidenceApprovalView(APIView):
             return Response({'error': 'request fail'} , status=401)
         
         instance.evidence_approval = True
+            
         instance.save()
         return Response({'ok': True})
