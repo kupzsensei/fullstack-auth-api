@@ -2,6 +2,8 @@ from django.shortcuts import render
 from rest_framework import generics
 from .serializers import OvertimePostSerializer, OvertimeGetSerializer
 from .models import Overtime
+from rest_framework.views import APIView
+from rest_framework.response import Response
 
 # Create your views here.
 class RequestOvertimeView(generics.ListCreateAPIView):
@@ -19,3 +21,18 @@ class RequestOvertimeView(generics.ListCreateAPIView):
 
     def get_queryset(self):
         return Overtime.objects.filter(supervisor=self.request.user)
+
+class RequestApprovalView(APIView):
+    def post(self,request):
+       
+        instance = Overtime.objects.get(id=request.get('id'))
+
+        if not instance:
+            return Response({'error': 'request not found'} , status=404)
+        
+        if instance.supervisor != request.user:           
+            return Response({'error': 'request fail'} , status=401)
+        
+        instance.request_approval = True
+        instance.save()
+        return Response({'ok': True})

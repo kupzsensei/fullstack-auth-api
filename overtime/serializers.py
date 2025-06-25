@@ -9,6 +9,10 @@ class OvertimePostSerializer(serializers.ModelSerializer):
 
 class OvertimeGetSerializer(serializers.ModelSerializer):
     user = GetUserSerializer(read_only=True)
+    supervisor = GetUserSerializer(read_only=True)
+
     class Meta:
         model = Overtime
-        fields = ['reason' ,'time_in' , 'time_out' , 'supervisor','user']
+        fields = ['reason' ,'time_in' , 'time_out' , 'supervisor','user' , 'files']
+        depth = 2
+
