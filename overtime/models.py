@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 
 # Create your models here.
 class FileUpload(models.Model):
-    file = models.FileField(upload_to='files')
+    file = models.FileField(upload_to='files' )
     time_stamp = models.DateTimeField(auto_now_add=True)
 
    
@@ -32,7 +32,7 @@ class Overtime(models.Model):
 
 class OvertimeFile(models.Model):
     overtime = models.ForeignKey(Overtime , on_delete=models.CASCADE , related_name='files')
-    file = models.ForeignKey(FileUpload , on_delete=models.CASCADE)
+    file = models.ForeignKey(FileUpload , on_delete=models.CASCADE , null=True , blank=True)
 
     
 

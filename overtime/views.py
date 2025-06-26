@@ -1,14 +1,16 @@
 from django.shortcuts import render
 from rest_framework import generics
-from .serializers import OvertimePostSerializer, OvertimeGetSerializer
-from .models import Overtime
+from .serializers import OvertimePostSerializer, OvertimeGetSerializer , FileUploadSerializer
+from .models import Overtime , FileUpload
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework.parsers import FormParser , MultiPartParser
 
 # Create your views here.
 class RequestOvertimeView(generics.ListCreateAPIView):
     queryset = Overtime.objects.all()
     serializer_class = OvertimePostSerializer
+    parser_classes = [FormParser , MultiPartParser]
 
     def perform_create(self, serializer):
         print(self.request.user)
@@ -49,6 +51,12 @@ class EvidenceApprovalView(APIView):
             return Response({'error': 'request fail'} , status=401)
         
         instance.evidence_approval = True
-            
+
         instance.save()
         return Response({'ok': True})
+    
+
+class FileUploadView(generics.CreateAPIView):
+    serializer_class = FileUploadSerializer
+    queryset = FileUpload.objects.all()
+    
