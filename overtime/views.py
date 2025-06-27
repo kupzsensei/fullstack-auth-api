@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from rest_framework import generics
-from .serializers import OvertimePostSerializer, OvertimeGetSerializer , FileUploadSerializer
-from .models import Overtime , FileUpload
+from .serializers import OvertimePostSerializer, CommentSerializer, OvertimeGetSerializer , FileUploadSerializer
+from .models import Overtime , FileUpload , Comment
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.parsers import FormParser , MultiPartParser
@@ -59,4 +59,13 @@ class EvidenceApprovalView(APIView):
 class FileUploadView(generics.CreateAPIView):
     serializer_class = FileUploadSerializer
     queryset = FileUpload.objects.all()
+
+
+class CommentView(generics.CreateAPIView):
+    serializer_class = CommentSerializer
+    queryset = Comment.objects.all()
+
+    def perform_create(self, serializer):
+        print(self.request.user)
+        serializer.save(user=self.request.user)
     

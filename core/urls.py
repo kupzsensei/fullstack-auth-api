@@ -29,7 +29,7 @@ from .views import RegisterView , GetAllUserView
 from django.conf import settings
 from django.conf.urls.static import static
 
-from overtime.views import FileUploadView, RequestOvertimeView , RequestApprovalView ,EvidenceApprovalView
+from overtime.views import FileUploadView, CommentView, RequestOvertimeView , RequestApprovalView ,EvidenceApprovalView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -45,7 +45,8 @@ urlpatterns = [
     path('api/request-approval/' , RequestApprovalView.as_view()),
     path('api/evidence-approval/' , EvidenceApprovalView.as_view()),
 
-    path('api/fileupload/' , FileUploadView.as_view())
+    path('api/fileupload/' , FileUploadView.as_view()),
+    path('api/add-comment/' , CommentView.as_view()),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
